@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="CountryList.js"> </script>
+    <link rel="stylesheet" href="main.css" />
+    <title>Charts</title>
+</head>
+
+<body>
+    <form class="countrySearch">
+        <div>
+            <input class="input" placeholder="Country Name" />
+            <button class="button" type="submit"> Search</button>
+        </div>
+        <div class="err"> </div>
+    </form>
+
+    <svg width="1100" height="600" class="svg">
+        <g id="time" transform="translate(50, 300)"></g>
+        <g id="lines">  
+        </g>
+        <g id="elements">  
+        </g>
+
+        <!-- <g id="item" transform="translate(400, 200)" > 
+            <circle r="30" fill="orange" stroke="red" stroke-width="4">  </circle>
+            <line x1="0" y1="32" x2="0" y2="100" stroke="black" />
+            <text x="-11" y="3"> test</text>
+        </g> -->
+  
+    </svg>
+
+    <script src="script.js"> </script>
+</body>
+
+</html>
