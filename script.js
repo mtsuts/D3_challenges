@@ -106,21 +106,24 @@ console.log(results)
   sunriseSunset();
 });
 
+
+
+
 function draw(data) {
   svg.select("#lines").selectAll('g').data(data).join('g').attr('transform', (d,i) => {
     return `translate(${timeScale(d.date)}, ${i % 2 === 1 ? '200': '100'})`
   }).html((d,i) => {
     return `
-    <line x1='0' x2='0' y1='5' y2=${i % 2 === 1 ? '100' : '200'} stroke="black"/>
+    <line x1='0' x2='0' y1=${i % 2 ===1 ?'5' : '200'} y2=${i % 2 === 1 ? '100' : '300'} stroke="black"/>
    `
   })
   svg.select("#elements").selectAll('g').data(data).join('g').attr('transform', (d,i) => {
-    return `translate(${timeScale(d.date)}, ${i % 2 === 1 ? '200': '100'})`
+    return `translate(${timeScale(d.date)}, ${i % 2 === 1 ? '200': '400'})`
   }).html((d,i) => {
     return `
-    
-    <circle r="30" fill=${i % 2 === 1 ? 'orange' : 'green'}  stroke-width="4">  </circle>
-    <text x="0" y="0" dominant-baseline="middle" text-anchor="middle" font-size='12px'> ${d.name}</text>`
+    <circle r="30" fill=${i % 2 === 1 ? '#F36A5A' : '#F3C200'}  stroke-width="4">  </circle>
+    <text x="0" y="0" dominant-baseline="middle" text-anchor="middle" font-size='12px'> ${d.name}</text>
+    `
   })
 }
 
