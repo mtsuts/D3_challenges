@@ -1,6 +1,7 @@
 body {
   background-color: antiquewhite;
   box-sizing: border-box;
+  font-family: sans-serif
 }
 
 .countrySearch {
@@ -38,13 +39,14 @@ svg > text {
 }
 
 .button {
-  background-color: #e08283;
+  background-color: #44107a;
   height: 30px;
   border-color: none;
   border-style: none;
   border-radius: 4px;
   cursor: pointer;
   box-sizing: border-box;
+  color: white;
 }
 
 h2 {
@@ -70,8 +72,10 @@ h2 {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: textclip 5s linear infinite;
-  display: inline-block;
-  font-size: 20px;
+  font-size: 40px;
+  text-align: center;
+  margin-top:20px;
+
 }
 
 
