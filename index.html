@@ -12,7 +12,7 @@
 </head>
 
 <body>
-  <h2 class="animate-character">Find Sunrise, Sunset, Solar Noon and Solar Position for Any Country on Earth </h2>
+    <h2 class="animate-character">Find Sunrise, Sunset, Solar Noon and Solar Position for Any Country on Earth </h2>
     <form class="countrySearch">
         <div>
             <input class="input" placeholder="Country Name" />
@@ -23,9 +23,9 @@
 
     <svg width="1100" height="600" class="svg">
         <g id="time" transform="translate(50, 300)"></g>
-        <g id="lines">  
+        <g id="lines">
         </g>
-        <g id="elements">  
+        <g id="elements">
         </g>
 
         <!-- <g id="item" transform="translate(400, 200)" > 
@@ -33,9 +33,15 @@
             <line x1="0" y1="32" x2="0" y2="100" stroke="black" />
             <text x="-11" y="3"> test</text>
         </g> -->
-  
-    </svg>
 
+    </svg>
+    <!-- Development -->
+    <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+    <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
+
+    <!-- Production -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
     <script src="script.js"> </script>
 </body>
 

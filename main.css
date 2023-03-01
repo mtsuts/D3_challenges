@@ -74,8 +74,21 @@ h2 {
   font-size: 20px;
 }
 
+
 @keyframes textclip {
   to {
     background-position: 200% center;
   }
 }
+
+.circle-text {
+    font-size: 13px;
+    overflow-wrap: break-word;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width:100%;
+    text-align: center;
+}
+
