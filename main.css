@@ -92,3 +92,6 @@ h2 {
     text-align: center;
 }
 
+.g:hover circle{
+  fill:#F36A5A
+}

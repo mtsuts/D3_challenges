@@ -116,13 +116,14 @@ function draw(data) {
   })
   svg.select("#elements").selectAll('g').data(data).join('g').attr('transform', (d,i) => {
     return `translate(${timeScale(d.date)}, ${i % 2 === 1 ? '200': '400'})`
-  }).html((d,i) => {  
+  }).attr('class', 'g')
+  .html((d,i) => {  
     const hours = d.date.getHours()
     const minutes = d.date.getMinutes()
     const seconds = d.date.getSeconds()
     const tooptip = `${hours}:${minutes}:${seconds}`
     console.log(tooptip)
-    return `<circle r="30" fill='#F3C200'  stroke-width="4">  </circle> 
+    return `<circle class="circle" r="30" fill='#F3C200'  stroke-width="4">  </circle> 
     <foreignObject x="-20" y="-20" width="40" height="40" data-tippy-content= "${tooptip}"> 
     <div class='circle-text'> ${d.name} </div>
     </foreignObject>
@@ -134,11 +135,5 @@ function draw(data) {
     arrow: false,
 });
 }
-
-
-
-
-
-{/* <text x="0" y="0" dominant-baseline="middle" text-anchor="middle" font-size='12px'> ${d.name}</text> */}
 
 
