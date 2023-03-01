@@ -1,7 +1,16 @@
-const input = document.querySelector(".input");
-const search = document.querySelector(".button");
+const countryInput = document.querySelector(".country-input");
+const longitudeInput = document.querySelector(".longitude-input");
+const latitudeInput = document.querySelector(".latitude-input");
+const searchCountry = document.querySelector("#second");
+const searchCoords = document.querySelector("#first");
 const err = document.querySelector(".err");
-const svg = d3.select(".svg").attr('width', window.innerWidth);
+const svg = d3.select(".svg").attr("width", window.innerWidth);
+const longBtn = document.querySelector(".long-lat");
+const countryBtn = document.querySelector(".country");
+
+function shownSearchLong() {
+  return longBtn.classList.add("shown");
+}
 
 const data = [
   {
@@ -48,7 +57,7 @@ const sunriseSunset = async (longitude, latitude) => {
   );
   const data = await response.json();
   const results = data.results;
-  console.log(results)
+  console.log(results);
   const entries = Object.entries(results).filter(
     (x) => x[0] !== "timezone" && x[0] !== "day_length"
   );
@@ -62,23 +71,28 @@ const sunriseSunset = async (longitude, latitude) => {
         .split(":");
 
       const hour =
-        amOrPm === "PM" ? parseInt(hourStr) + 12 : parseInt(hourStr);
+        amOrPm === "PM" && +hourStr < 12
+          ? parseInt(hourStr) + 12
+          : parseInt(hourStr);
       const minute = parseInt(minuteStr);
       const second = parseInt(secondStr);
 
+      // const date = d3.timeParse("%I:%M:%S %p")(d[1])
+
       return {
-        name: d[0].replace('_', ' '),
+        name: d[0].replace("_", " "),
         date: new Date(2022, 0, 1, hour, minute, second),
       };
     })
     .sort((a, b) => a.date - b.date);
+  console.log(newData);
   draw(newData);
 };
 
 let timeScale = d3
   .scaleTime()
-  .domain([new Date(2022, 0, 1), new Date(2022, 0, 2)])
-  .range([0, window.innerWidth- 100]);
+  .domain([new Date(2022, 0, 1, 0, 0, 0), new Date(2022, 0, 2, 0, 0, 0)])
+  .range([0, window.innerWidth - 100]);
 
 let axis = d3.axisBottom(timeScale);
 d3.select("#time").call(axis.tickFormat(d3.timeFormat("%I %p")));
@@ -86,17 +100,17 @@ d3.select("#time").call(axis.tickFormat(d3.timeFormat("%I %p")));
 const errorMsg = `<div class='error'> Country not Found </div>`;
 err.insertAdjacentHTML("afterbegin", errorMsg);
 
-search.addEventListener("click", function (e) {
+searchCountry.addEventListener("click", function (e) {
   e.preventDefault();
   if (err.classList.contains("shown")) {
     err.classList.remove("shown");
   }
   const found = countryData.find(
     (d) =>
-      input.value === d.countryName.toLowerCase() ||
-      input.value === d.countryName
+      countryInput.value === d.countryName.toLowerCase() ||
+      countryInput.value === d.countryName
   );
-  input.value = "";
+  countryInput.value = "";
   if (!found) {
     err.classList.add("shown");
     return;
@@ -107,44 +121,92 @@ search.addEventListener("click", function (e) {
   sunriseSunset(longitude, latitude);
 });
 
-function draw(data) {
-  svg.select("#lines").selectAll('g').data(data).join('g').attr('transform', (d,i) => {
-    return `translate(${timeScale(d.date)}, ${i % 2 === 1 ? '200': '100'})`
-  }).html((d,i) => {
-    return `
-    <line x1='0' x2='0' y1=${i % 2 ===1 ?'5' : '200'} y2=${i % 2 === 1 ? '100' : '300'} stroke="#ff1361"/>
-   `
-  })
-  svg.select("#elements").selectAll('g').data(data).join('g').attr('transform', (d,i) => {
-    return `translate(${timeScale(d.date)}, ${i % 2 === 1 ? '200': '400'})`
-  }).attr('class', 'g')
-  .html((d,i) => {  
-    const tooltip = getTooltipHtml(d.name, d.date)
-    return `<circle class="circle" r="30" fill='#F3C200'  stroke-width="4">  </circle> 
-    <foreignObject x="-20" y="-20" width="40" height="40" data-tippy-content= "${tooltip}"> 
-    <div class='circle-text'> ${d.name} </div>
-    </foreignObject>
-    `
-  })
+searchCoords.addEventListener("click", function (e) {
+  e.preventDefault();
+  if (err.classList.contains("shown")) {
+    err.classList.remove("shown");
+    return;
+  }
+  let longitude = longitudeInput.value;
+  let latitude = latitudeInput.value;
 
-  tippy('[data-tippy-content]', {
-    placement: 'right', 
-    arrow: false,
+  sunriseSunset(longitude, latitude);
+  longitudeInput.value = "";
+  latitudeInput.value = "";
 });
+
+function draw(data) {
+  const percentage = d3
+    .scaleLinear()
+    .domain([data[0].date, data[data.length - 1].date])
+    .range([0, 1]);
+
+  const colorScale = d3.interpolateYlOrBr;
+
+  svg
+    .select("#lines")
+    .selectAll("g")
+    .data(data)
+    .join("g")
+    .attr("transform", (d, i) => {
+      return `translate(${timeScale(d.date)}, ${i % 2 === 1 ? "200" : "100"})`;
+    })
+    .html((d, i) => {
+      return `
+    <line x1='0' x2='0' y1=${i % 2 === 1 ? "5" : "200"} y2=${
+        i % 2 === 1 ? "100" : "300"
+      } stroke="#525E64"/>
+   `;
+    });
+  svg
+    .select("#elements")
+    .selectAll("g")
+    .data(data)
+    .join("g")
+    .attr("transform", (d, i) => {
+      return `translate(${timeScale(d.date)}, ${i % 2 === 1 ? "200" : "400"})`;
+    })
+    .attr("class", "g")
+    .html((d, i) => {
+      return `<circle class="circle" r="30" fill='${colorScale(
+        percentage(d.date)
+      )}'  stroke-width="4">  </circle> 
+    <foreignObject x="-20" y="-20" width="40" height="40"> 
+    <div class='circle-text' style='color: ${
+      percentage(d.date) > 0.75 ? "white" : "black"
+    }'> ${d.name} </div>
+    </foreignObject>
+    `;
+    })
+    .each(function (d) {
+      const el = this;
+
+      if (el._tippy) el._tippy.destroy();
+
+      const tooltip = getTooltipHtml(d.name, d.date);
+
+      tippy(el, {
+        content: tooltip,
+        placement: "right",
+        arrow: false,
+        allowHTML: true,
+        interactive: true,
+        appendTo: () => document.body,
+      });
+    });
 }
 
+const colorScale = d3.scaleLinear().domain();
 
 function getTooltipHtml(name, date) {
-  const hours = date.getHours()
-  const minutes = date.getMinutes()
-  const seconds = date.getSeconds()
-  return `${hours}:${minutes}:${seconds}
-  `
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
+
+  return ` 
+  ${hours}:${minutes}:${seconds}
+  `;
 }
-
-
-
-
 
 const options = {
   enableHighAccuracy: true,
@@ -154,11 +216,7 @@ const options = {
 
 function success(pos) {
   const crd = pos.coords;
-  sunriseSunset(crd.longitude,crd.latitude)
-  console.log("Your current position is:");
-  console.log(`Latitude : ${crd.latitude}`);
-  console.log(`Longitude: ${crd.longitude}`);
-  console.log(`More or less ${crd.accuracy} meters.`);
+  sunriseSunset(crd.longitude, crd.latitude);
 }
 
 function error(err) {

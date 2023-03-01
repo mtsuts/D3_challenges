@@ -12,21 +12,36 @@
 </head>
 
 <body>
-    <h1 class="animate-character">Solar positions </h1>
+    <h1 class="animate-character">Sunrise & Sunset</h1>
     <form class="countrySearch">
-        <div>
-            <input class="input" placeholder="Country Name" />
-            <button class="button" type="submit"> Search</button>
+        <div class="inputs">
+            <!-- <button class="longBtn" onClick="shownSearchLong()"> Search by Longitude and Latitude</button> -->
+            <label> Search by Longitude and Latitude</label>
+            <div class="long-lat">
+                <input class="longitude-input" placeholder="longitude" />
+                <input class="latitude-input" placeholder="latitude" />
+                <button class="button" id="first" type="submit"> Search</button>
+            </div>
+            <br />
+            <!-- <button class="countryBtn"> Search by Country</button> -->
+            <label> Search by Country</label>
+            <div class="country">
+                <input class="country-input" placeholder="Country Name" />
+                <button class="button" id="second" type="submit"> Search</button>
+            </div>
         </div>
         <div class="err"> </div>
     </form>
 
     <svg width="1100" height="600" class="svg">
-        <g id="time" transform="translate(50, 300)"></g>
-        <g id="lines">
+        <g class="chart" transform="translate(50)">
+            <g id="time" class="axis" transform="translate(0, 300)"></g>
+            <g id="lines">
+            </g>
+            <g id="elements">
+            </g>
         </g>
-        <g id="elements">
-        </g>
+
 
         <!-- <g id="item" transform="translate(400, 200)" > 
             <circle r="30" fill="orange" stroke="red" stroke-width="4">  </circle>

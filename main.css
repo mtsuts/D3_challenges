@@ -22,6 +22,17 @@ body {
   outline: none;
 }
 
+.countrySearch button {
+  height: 30px;
+  border-color: none;
+  border-style: none;
+  border-radius: 4px;
+  padding: auto;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+
 .err {
   display: none;
   color: red;
@@ -38,16 +49,18 @@ svg > text {
   fill: rgb(144, 88, 88);
 }
 
-.button {
-  background-color: #44107a;
+.button{
+  background-color: #ffefad;
   height: 30px;
   border-color: none;
   border-style: none;
   border-radius: 4px;
   cursor: pointer;
   box-sizing: border-box;
-  color: white;
+  color: black;
+
 }
+
 
 h2 {
   color: #e35b5a;
@@ -97,5 +110,34 @@ h2 {
 }
 
 .g:hover circle{
-  fill:#F36A5A
+  fill:#F2784B
+}
+
+.inputs {
+  display: block;
+}
+
+
+ .long-lat {
+  margin-top: 5px;
+} 
+
+.country {
+  margin-top: 5px;
+} 
+
+.countryBtn {
+  margin-top: 10px;
+}
+
+.shown {
+  display: block;
+}
+
+label {
+  font-size:small
+}
+
+.axis text {
+  fill: #525E64;
 }
