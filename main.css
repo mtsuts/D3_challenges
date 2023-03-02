@@ -113,6 +113,10 @@ h2 {
   fill:#F2784B
 }
 
+.g {
+  cursor: pointer;
+}
+
 .inputs {
   display: block;
 }
@@ -141,3 +145,4 @@ label {
 .axis text {
   fill: #525E64;
 }
+
