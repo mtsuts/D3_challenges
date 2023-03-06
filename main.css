@@ -116,6 +116,9 @@ h2 {
 .g {
   cursor: pointer;
 }
+.g:focus {
+  outline: none;
+}
 
 .inputs {
   display: block;
