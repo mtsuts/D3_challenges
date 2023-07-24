@@ -57,10 +57,14 @@ const sunriseSunset = async (longitude, latitude) => {
   );
   const data = await response.json();
   const results = data.results;
-  console.log(results);
+
   const entries = Object.entries(results).filter(
     (x) => x[0] !== "timezone" && x[0] !== "day_length"
   );
+
+  const newEntries = entries.pop()
+  console.log(newEntries)
+  console.log(entries)
   const newData = entries
     .map((d) => {
       const amOrPm = d[1].split(" ")[1];
@@ -85,7 +89,7 @@ const sunriseSunset = async (longitude, latitude) => {
       };
     })
     .sort((a, b) => a.date - b.date);
-  console.log(newData);
+
   draw(newData);
 };
 
@@ -153,9 +157,8 @@ function draw(data) {
     })
     .html((d, i) => {
       return `
-    <line x1='0' x2='0' y1=${i % 2 === 1 ? "5" : "200"} y2=${
-        i % 2 === 1 ? "100" : "300"
-      } stroke="#525E64"/>
+    <line x1='0' x2='0' y1=${i % 2 === 1 ? "5" : "200"} y2=${i % 2 === 1 ? "100" : "300"
+        } stroke="#525E64"/>
    `;
     });
   svg
@@ -172,9 +175,8 @@ function draw(data) {
         percentage(d.date)
       )}'  stroke-width="4">  </circle> 
     <foreignObject x="-20" y="-20" width="40" height="40"> 
-    <div class='circle-text' style='color: ${
-      percentage(d.date) > 0.75 ? "white" : "black"
-    }'> ${d.name} </div>
+    <div class='circle-text' style='color: ${percentage(d.date) > 0.75 ? "white" : "black"
+        }'> ${d.name} </div>
     </foreignObject>
     `;
     })
