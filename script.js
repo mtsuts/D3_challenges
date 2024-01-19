@@ -63,8 +63,6 @@ const sunriseSunset = async (longitude, latitude) => {
   );
 
   const newEntries = entries.pop()
-  console.log(newEntries)
-  console.log(entries)
   const newData = entries
     .map((d) => {
       const amOrPm = d[1].split(" ")[1];
@@ -73,6 +71,7 @@ const sunriseSunset = async (longitude, latitude) => {
         .replace("PM", "")
         .trim()
         .split(":");
+
 
       const hour =
         amOrPm === "PM" && +hourStr < 12
@@ -88,15 +87,26 @@ const sunriseSunset = async (longitude, latitude) => {
         date: new Date(2022, 0, 1, hour, minute, second),
       };
     })
+    .filter(d => d.name === 'first light' || d.name === 'dawn' || d.name === "sunrise" || d.name === 'solar noon' || d.name === 'golden hour' || d.name === "sunset" || d.name === 'dusk' || d.name === 'last light'
+    )
     .sort((a, b) => a.date - b.date);
 
   draw(newData);
+  console.log(newData)
 };
+
 
 let timeScale = d3
   .scaleTime()
   .domain([new Date(2022, 0, 1, 0, 0, 0), new Date(2022, 0, 2, 0, 0, 0)])
   .range([0, window.innerWidth - 100]);
+
+let zoom = d3.zoom()
+  .on('zoom', handleZoom);
+
+function handleZoom() {
+  console.log('zoomed')
+}
 
 let axis = d3.axisBottom(timeScale);
 d3.select("#time").call(axis.tickFormat(d3.timeFormat("%I %p")));
@@ -153,7 +163,7 @@ function draw(data) {
     .data(data)
     .join("g")
     .attr("transform", (d, i) => {
-      return `translate(${timeScale(d.date)}, ${i % 2 === 1 ? "200" : "100"})`;
+      return `translate(${timeScale(d.date) !== undefined ? timeScale(d.date) : "100"}, ${i % 2 === 1 ? "200" : "100"})`;
     })
     .html((d, i) => {
       return `
@@ -167,7 +177,7 @@ function draw(data) {
     .data(data)
     .join("g")
     .attr("transform", (d, i) => {
-      return `translate(${timeScale(d.date)}, ${i % 2 === 1 ? "200" : "400"})`;
+      return `translate(${timeScale(d.date) !== undefined ? timeScale(d.date) : "100"}, ${i % 2 === 1 ? "200" : "400"})`;
     })
     .attr("class", "g")
     .html((d, i) => {
